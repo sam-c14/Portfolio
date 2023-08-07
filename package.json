@@ -7,7 +7,7 @@
     "css": "postcss assets/styles/main.css -o assets/styles/main.min.css --verbose",
     "server-reload": "browser-sync start --config './browser-sync-config.js'",
     "develop": "concurrently 'npm run css -- --watch' 'npm:server-reload'",
-    "build": "postcss assets/styles/main.css -o dist/assets/styles/main.min.css && node copy-assets.js",
+    "build": "postcss assets/styles/main.css -o public/assets/styles/main.min.css && node copy-assets.js",
     "format": "npx prettier ./**/*.html"
   },
   "browserslist": [

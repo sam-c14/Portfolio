@@ -3,7 +3,7 @@ const path = require("path");
 const ncp = require("ncp").ncp;
 
 const sourceDir = path.join(__dirname, "assets");
-const targetDir = path.join(__dirname, "dist", "assets");
+const targetDir = path.join(__dirname, "public", "assets");
 
 // Copy assets folder
 ncp(sourceDir, targetDir, function (err) {
@@ -15,7 +15,7 @@ ncp(sourceDir, targetDir, function (err) {
 
 // Copy index.html file
 const indexSourceFile = path.join(__dirname, "index.html");
-const indexTargetFile = path.join(__dirname, "dist", "index.html");
+const indexTargetFile = path.join(__dirname, "public", "index.html");
 
 fs.copyFile(indexSourceFile, indexTargetFile, (err) => {
   if (err) {
