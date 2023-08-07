@@ -6,8 +6,8 @@
   "scripts": {
     "css": "postcss assets/styles/main.css -o assets/styles/main.min.css --verbose",
     "server-reload": "browser-sync start --config './browser-sync-config.js'",
-    "develop": "concurrently 'npm:css -- --watch' 'npm:server-reload'",
-    "build": "npm run css -- --env 'production'",
+    "develop": "concurrently 'npm run css -- --watch' 'npm:server-reload'",
+    "build": "postcss assets/styles/main.css -o dist/assets/styles/main.min.css && node copy-assets.js",
     "format": "npx prettier ./**/*.html"
   },
   "browserslist": [
@@ -19,13 +19,15 @@
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.2",
     "browser-sync": "^2.27.7",
-    "cssnano": "^5.0.17",
-    "postcss-cli": "^9.1.0"
+    "cssnano": "^5.0.17"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
     "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
+    "ncp": "^2.0.0",
     "postcss": "^8.4.7",
+    "postcss-cli": "^10.1.0",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.8",
     "tailwindcss": "^3.0.23"
