@@ -3,9 +3,5 @@
   "routes": [{ "src": "/(.*)", "dest": "/" }],
   "env": {
     "NODE_ENV": "production"
-  },
-  "scripts": {
-    "dev": "npm run dev",
-    "build": "npm run build"
   }
 }
