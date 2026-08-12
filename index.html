@@ -73,10 +73,16 @@
       src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
 
+    <script>
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+
     <style>
       .user-img{
-        background-image: url('./assets/img/Portfolio.jpg');
-        background-position: center;
+        background-image: url('./assets/img/pro-headshot.jpg');
+        background-position: top center;
         background-size: cover;
       }
       .mail-btn{
@@ -90,13 +96,126 @@
       html{
         scroll-behavior: smooth;
       }
+
+      /* Dark mode styles */
+      body, div, span, h1, h2, h3, h4, h5, h6, p, a, input, textarea, button {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      }
+
+      .dark body {
+        background-color: #0f172a;
+        color: #f8fafc;
+      }
+
+      .dark .bg-grey-50 {
+        background-color: #1e293b !important;
+      }
+
+      .dark .bg-white {
+        background-color: #1e293b !important;
+        color: #f8fafc !important;
+      }
+
+      .dark .text-black {
+        color: #f1f5f9 !important;
+      }
+
+      .dark .text-grey-10,
+      .dark .text-grey-20,
+      .dark .text-grey-30,
+      .dark .text-grey-40,
+      .dark .text-grey-dark {
+        color: #cbd5e1 !important;
+      }
+
+      .dark .text-primary {
+        color: #a78bfa !important;
+      }
+
+      .dark .border {
+        border-color: #334155 !important;
+        background-color: #1e293b;
+        color: #e2e8f0 !important;
+      }
+
+      .dark .border-grey-40 {
+        border-color: #475569 !important;
+      }
+
+      .dark .border-grey-70,
+      .dark .bg-grey-70 {
+        border-color: #334155 !important;
+        background-color: #334155 !important;
+      }
+
+      .dark .border-grey-50 {
+        border-color: #334155 !important;
+      }
+
+      .dark input,
+      .dark textarea {
+        background-color: #0f172a !important;
+        color: #f8fafc !important;
+        border-color: #334155 !important;
+      }
+
+      .dark input::placeholder,
+      .dark textarea::placeholder {
+        color: #94a3b8 !important;
+      }
+
+      .dark .shadow {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+      }
+
+      .dark .mail-btn {
+        border-color: #a78bfa !important;
+        color: #ffffff !important;
+      }
+
+      .dark .mail-btn:hover {
+        color: #0f172a !important;
+        background-color: #a78bfa !important;
+      }
+
+      .dark #services .group {
+        background-color: #1e293b;
+      }
+
+      .dark #services .group:hover {
+        background-color: #5540af;
+      }
+
+      .dark .group-hover\:hidden img,
+      .dark #statistics img {
+        filter: invert(1) brightness(1.8);
+      }
     </style>
   </head>
 
   <body
-    :class="{ 'overflow-hidden max-h-screen': mobileMenu }"
-    class="relative"
-    x-data="{ mobileMenu: false }"
+    :class="{ 'overflow-hidden max-h-screen': mobileMenu, 'dark': darkMode }"
+    class="relative transition-colors duration-300"
+    x-data="{
+      mobileMenu: false,
+      darkMode: localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+      toggleTheme() {
+        this.darkMode = !this.darkMode;
+        localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+        if (this.darkMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+    }"
+    x-init="
+      if (darkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    "
   >
     <div id="main" class="relative">
       <div
@@ -166,9 +285,30 @@
                     class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
                   ></span>
                 </li>
+
+                <li class="pl-6">
+                  <button
+                    @click="toggleTheme()"
+                    class="flex items-center justify-center px-3 py-2 rounded-full border border-white/30 bg-white/10 text-white hover:border-yellow hover:text-yellow transition-all focus:outline-none"
+                    :title="darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+                    aria-label="Toggle dark mode"
+                  >
+                    <i x-show="!darkMode" class="bx bx-moon text-xl"></i>
+                    <i x-show="darkMode" class="bx bx-sun text-xl text-yellow"></i>
+                  </button>
+                </li>
               </ul>
             </div>
-            <div class="block lg:hidden">
+            <div class="flex items-center space-x-3 lg:hidden">
+              <button
+                @click="toggleTheme()"
+                class="flex items-center justify-center px-3 py-2 rounded-full border border-white/30 bg-white/10 text-white hover:border-yellow hover:text-yellow transition-all focus:outline-none"
+                :title="darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+                aria-label="Toggle dark mode"
+              >
+                <i x-show="!darkMode" class="bx bx-moon text-2xl"></i>
+                <i x-show="darkMode" class="bx bx-sun text-2xl text-yellow"></i>
+              </button>
               <button @click="mobileMenu = true">
                 <i class="bx bx-menu text-4xl text-white"></i>
               </button>
@@ -227,6 +367,17 @@
                   >Contact</span
                 >
               </li>
+
+              <li class="py-3">
+                <button
+                  @click="toggleTheme()"
+                  class="flex items-center space-x-2 rounded-full border border-white/40 px-4 py-2 text-sm font-header font-semibold uppercase text-white hover:bg-white hover:text-primary transition-all"
+                >
+                  <i x-show="!darkMode" class="bx bx-moon text-lg"></i>
+                  <i x-show="darkMode" class="bx bx-sun text-lg text-yellow"></i>
+                  <span x-text="darkMode ? 'Light Mode' : 'Dark Mode'"></span>
+                </button>
+              </li>
             </ul>
           </div>
         </div>
@@ -267,7 +418,7 @@
                 <p class="pt-4 font-body text-lg text-white max-w-2xl">
                   Building scalable web applications, developer tools, and high-performance systems with React, Next.js, Rust, Node.js and AI-assisted engineering workflows.
                 </p>
-                <div class="flex flex-col items-center sm:flex-row sm:items-start sm:pt-5 gap-3">
+                <div class="flex flex-col items-center sm:flex-row sm:items-start sm:pt-5 pt-10 gap-3">
                   <a href="#portfolio" class="rounded border-2 border-white bg-yellow px-6 py-3 font-header text-sm font-bold uppercase text-primary transition-all hover:scale-105">View Projects</a>
                   <a href="https://drive.google.com/file/d/1ccw51pFiNgoxlSY1APfOQAmUcn7AwONw/view?usp=drive_link" download target="_blank" class="rounded border-2 border-white px-6 py-3 font-header text-sm font-bold uppercase text-white transition-all hover:bg-white hover:text-primary">Download Resume</a>
                   <a href="#contact" class="rounded border-2 border-white px-6 py-3 font-header text-sm font-bold uppercase text-white transition-all hover:bg-white hover:text-primary">Contact Me</a>
